@@ -12,9 +12,7 @@ export default function RootLayout({ children }) {
         <html lang='en'>
             <body>
                 <RecordProvider>
-                    <main>
-                        {children}
-                    </main>
+                    {children}
                 </RecordProvider>
             </body>
         </html>

@@ -1,38 +1,44 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Header from "@/components/layout/Header";
 import JobCard from "@/components/features/JobCard.jsx";
 import { useRecord } from "@/context/RecordContext";
 
 export default function Page() {
-  const router = useRouter();
-  const { record } = useRecord();
+  const { setRecord, record } = useRecord();
   const [applications, setApplications] = useState([]);
 
   useEffect(() => {
-    if (record?.applications) {
-      setApplications(record.applications);
-      console.log(applications)
+    const savedRecord = localStorage.getItem('record');
+    if (savedRecord) {
+      try {
+        const parsedRecord = JSON.parse(savedRecord);
+        setRecord(parsedRecord);
+        console.log('record: (homepage)' ,record.applications)
+      } catch (error) {
+        console.error('Error parsing JSON from local storage', error)
+        localStorage.removeItem('record');
+      }
     }
-  }, [applications, record])
+  }, []);
 
   useEffect(() => {
-    if (record && record.company && record.company.c_name) {
-      setApplications((prevApplications) => [
-        ...prevApplications,
-        {
-          company: record.company.c_name,
-          location: record.company.c_location,
-          title: record.position.p_title,
-          status: record.applicationDetails.app_status,
-        },
-      ]);
+    console.log('Current state of record', record.applications)
+    if (record && record.applications) {
+      const newApplications = record.applications.map((application, index) => ({
+        company: application.company.c_name,
+        location: application.company.c_location,
+        title: application.position.p_title,
+        status: application.applicationDetails.app_status,
+      }));
+
+      setApplications(newApplications)
+      console.log('Current state of application:', applications);
+    } else {
+      console.log('Record or record.applications is not set');
     }
   }, [record]);
-
-  console.log(record)
 
   return (
     <>

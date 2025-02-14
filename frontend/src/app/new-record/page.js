@@ -1,12 +1,10 @@
 'use client'
-
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from "@/components/layout/Header";
 import { useRecord } from '@/context/RecordContext';
 
 export default function NewRecord() {
-   const router = useRouter()
    const { setRecord } = useRecord();
 
    const [company, setCompany] = useState({ c_name: "", c_location: "", c_website: "", staff_range: "", });
@@ -31,9 +29,13 @@ export default function NewRecord() {
          ...prevRecords,
          applications: [...(prevRecords.applications || []), record]
       }));
-
-      router.push('/')
-      console.log('record:', record);
+      try {
+         localStorage.setItem('record', JSON.stringify(record));
+      } catch (error) {
+         console.error('Error saving to local storage', error)
+      }
+      
+      console.log('record: (new-record)', record);
       
       // Clear form
       setCompany({ c_name: "", c_location: "", c_website: "", staff_range: "" });
