@@ -1,16 +1,38 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Header from "@/components/layout/Header";
 import JobCard from "@/components/features/JobCard.jsx";
+import { useRecord } from "@/context/RecordContext";
 
 export default function Page() {
-  const applications = [
-    { company: "company_1", location: "Calgary, Alberta", title: "Software Developer", status: "Awaiting" },
-    { company: "company_2", location: "Edmonton, Alberta", title: "Sales Representative", status: "Considered" },
-    { company: "company_3", location: "Vancouver, British Columbia", title: "Data Engineer", status: "Considered" },
-    { company: "company_4", location: "Calgary, Alberta", title: "Backend Developer", status: "Interviewed" },
-    { company: "company_5", location: "Calgary, Alberta", title: "Frontend Developer", status: "Interviewed" },
-    { company: "company_5", location: "Calgary, Alberta", title: "AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH", status: "Hired" },
-  ]
+  const router = useRouter();
+  const { record } = useRecord();
+  const [applications, setApplications] = useState([]);
+
+  useEffect(() => {
+    if (record?.applications) {
+      setApplications(record.applications);
+      console.log(applications)
+    }
+  }, [applications, record])
+
+  useEffect(() => {
+    if (record && record.company && record.company.c_name) {
+      setApplications((prevApplications) => [
+        ...prevApplications,
+        {
+          company: record.company.c_name,
+          location: record.company.c_location,
+          title: record.position.p_title,
+          status: record.applicationDetails.app_status,
+        },
+      ]);
+    }
+  }, [record]);
+
+  console.log(record)
 
   return (
     <>

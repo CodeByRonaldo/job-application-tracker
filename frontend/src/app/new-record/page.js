@@ -1,26 +1,45 @@
 'use client'
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import Header from "@/components/layout/Header";
+import { useRecord } from '@/context/RecordContext';
 
 export default function NewRecord() {
+   const router = useRouter()
+   const { setRecord } = useRecord();
+
    const [company, setCompany] = useState({ c_name: "", c_location: "", c_website: "", staff_range: "", });
    const [position, setPosition] = useState({ p_title: "", salary: "", competition: "", benefits: "", tasks: "", });
    const [applicationDetails, setApplicationDetails] = useState({ app_status: "", date: "", });
    const [moreInfo, setMoreInfo] = useState({ info: "", });
-   
-   
 
+   // Handle submit
    const handleSubmit = (e) => {
       e.preventDefault();
 
+      // Aggregate the data into the record datafile
       const record = {
          company,
          position,
          applicationDetails,
          moreInfo,
       }
+
+      // Update records in context
+      setRecord(prevRecords => ({
+         ...prevRecords,
+         applications: [...(prevRecords.applications || []), record]
+      }));
+
+      router.push('/')
       console.log('record:', record);
+      
+      // Clear form
+      setCompany({ c_name: "", c_location: "", c_website: "", staff_range: "" });
+      setPosition({ p_title: "", salary: "", competition: "", benefits: "", tasks: "" });
+      setApplicationDetails({ app_status: "", date: "" });
+      setMoreInfo({ info: "" });
    };
 
 
