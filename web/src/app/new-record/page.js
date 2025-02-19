@@ -5,7 +5,6 @@ import { useRecord } from '@/context/RecordContext';
 import RecordForm from '@/components/forms/RecordForm';
 
 export default function NewRecord() {
-
 return (
 <>
 <Header />
