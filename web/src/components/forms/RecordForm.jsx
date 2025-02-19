@@ -1,7 +1,9 @@
 'use client'
 import React, {useState } from 'react';
+import { useRecord } from '@/context/RecordContext';
 
 export default function RecordForm({ onSubmit }) {
+    const { setRecord, record } = useRecord();
     const [company, setCompany] = useState({ c_name: "", c_location: "", c_website: "", staff_range: "", });
     const [position, setPosition] = useState({ p_title: "", salary: "", competition: "", benefits: "", tasks: "", });
     const [applicationDetails, setApplicationDetails] = useState({ app_status: "", date: "", });
@@ -17,9 +19,17 @@ export default function RecordForm({ onSubmit }) {
             position,
             applicationDetails,
             moreInfo,
-        }
+        };
 
-        onSubmit(record)
+        setRecord(prevRecords => ({
+            ...prevRecords,
+            applications: [...(prevRecords.applications || []), record]
+        }));
+        try {
+        localStorage.setItem('record', JSON.stringify(record));
+        } catch (error) {
+        console.error('Error saving to local storage', error)
+        };
         
         // Clear form
         setCompany({ c_name: "", c_location: "", c_website: "", staff_range: "" });
