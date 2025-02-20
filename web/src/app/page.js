@@ -7,7 +7,7 @@ import { useRecord } from "@/context/RecordContext";
 
 export default function Page() {
   const { setRecord, record } = useRecord();
-
+  
   useEffect(() => {
     const savedRecord = localStorage.getItem('record');
     if (savedRecord) {
@@ -19,6 +19,7 @@ export default function Page() {
       }
     }
   }, []);
+
 
   return (
     <>

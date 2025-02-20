@@ -18,9 +18,7 @@ export const RecordProvider = ({ children }) => {
         if (typeof window !== 'undefined') {
             localStorage.setItem('record', JSON.stringify(record));
         }
-    }, [record])
-
-    console.log('record:', record)
+    }, [record]);
 
     return (
         <RecordContext.Provider value={{ record, setRecord }}>
