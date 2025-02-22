@@ -28,6 +28,7 @@ export default function JobCard({id, companyTitle, location, jobTitle, status}) 
       // Save it into localStorage
       try {
         localStorage.setItem('record', JSON.stringify(record));
+        console.log('Delete record: ', record)
         } catch (error) {
         console.error('Error saving to local storage', error)
         };
@@ -44,6 +45,7 @@ export default function JobCard({id, companyTitle, location, jobTitle, status}) 
 
   const handleEdit = () => {
     console.log('Edit your job application:', id);
+
     setShowDropdown(false);
   }
 
