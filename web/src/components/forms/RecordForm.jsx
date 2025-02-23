@@ -1,38 +1,26 @@
 'use client'
-import React, {useState } from 'react';
-import { useRecord } from '@/context/RecordContext';
+import React, { useState } from 'react';
 import { APPLICATION } from '@/constants/applicationStates';
-import { addApplication } from '@/functions/ApplicationFunctions';
+import { updateApplication } from '@/functions/ApplicationFunctions';
 
 export default function RecordForm({ onSubmit }) {
-    const { setRecord, record } = useRecord();
-
-    const [application, setApplication] = useState(APPLICATION)
-
-    // HandleEventInputChange
-    const handleInputChange = (e, section, field) => {
-        setApplication((prevRecord) => ({
-            
-        }));
-    };
+    const [application, setApplication] = useState(APPLICATION);
+    const [company, setCompany] = useState({ c_name: "", c_location: "", c_website: "", staff_range: "", });
+    const [position, setPosition] = useState({ p_title: "", salary: "", competition: "", benefits: "", tasks: "", });
+    const [applicationDetails, setApplicationDetails] = useState({ app_status: "", date: "", });
+    const [moreInfo, setMoreInfo] = useState({ info: "", });
 
     // Handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        addApplication(application);
-        // setRecord(prevRecords => ({
-        //     ...prevRecords,
-        //     applications: [...(prevRecords.applications || []), record]
-        // }));
-        // try {
-        // localStorage.setItem('record', JSON.stringify(record));
-        // } catch (error) {
-        // console.error('Error saving to local storage', error)
-        // };
+        // Aggregate the data into the record datafile
+        updateApplication(application);
+
+        onSubmit(record)
         
         // Clear form
-        setApplication(APPLICATION)
+        setApplication(APPLICATION);
     };
 
     return (
@@ -40,10 +28,10 @@ export default function RecordForm({ onSubmit }) {
         <div>
             <h2 className="text-2xl font-bold border-b-2 border-[#1e1e1e] line-clamp-2 mb-2 mt-4">Company Information</h2>
             <div className="grid grid-cols-2 gap-x-2 gap-y-2">
-                <input className='text-black rounded-lg placeholder-gray-600 w-full px-4 py-2.5 bg-gray-200 focus:outline-none transition duration-50 ease-in-out transform border-transparent focus:bg-white focus:border-[#1e1e1e] focus:shadow-outline focus:ring-2 ring-offset-2 ring-[#1e1e1e] placeholder:italic' type='text' placeholder="Company Name *" name='c_name' value={APPLICATION.COMPANY_STATE.name} onChange={(e) => setCompany({ ...APPLICATION.COMPANY_STATE, name: e.target.value, })} required />
-                <input className="text-black rounded-lg placeholder-gray-600 w-full px-4 py-2.5 bg-gray-200 focus:outline-none transition duration-50 ease-in-out transform border-transparent focus:bg-white focus:border-[#1e1e1e] focus:shadow-outline focus:ring-2 ring-offset-2 ring-[#1e1e1e] placeholder:italic" type='text' placeholder="Company Location *" name='c_location' value={APPLICATION.COMPANY_STATE.location} onChange={(e) => setCompany({ ...APPLICATION.COMPANY_STATE, location: e.target.value, })} />
-                <input className="text-black rounded-lg placeholder-gray-600 w-full px-4 py-2.5 bg-gray-200 focus:outline-none transition duration-50 ease-in-out transform border-transparent focus:bg-white focus:border-[#1e1e1e] focus:shadow-outline focus:ring-2 ring-offset-2 ring-[#1e1e1e] placeholder:italic" type='text' placeholder="Company Website" name='c_website' value={APPLICATION.COMPANY_STATE.website} onChange={(e) => setCompany({ ...APPLICATION.COMPANY_STATE, website: e.target.value, })} />
-                <input className="text-black rounded-lg placeholder-gray-600 w-full px-4 py-2.5 bg-gray-200 focus:outline-none transition duration-50 ease-in-out transform border-transparent focus:bg-white focus:border-[#1e1e1e] focus:shadow-outline focus:ring-2 ring-offset-2 ring-[#1e1e1e] placeholder:italic" type='text' placeholder="Staff Number Range" name='staff_range' value={APPLICATION.COMPANY_STATE.staff_range} onChange={(e) => setCompany({ ...APPLICATION.COMPANY_STATE, staff_range: e.target.value, })} />
+                <input className='text-black rounded-lg placeholder-gray-600 w-full px-4 py-2.5 bg-gray-200 focus:outline-none transition duration-50 ease-in-out transform border-transparent focus:bg-white focus:border-[#1e1e1e] focus:shadow-outline focus:ring-2 ring-offset-2 ring-[#1e1e1e] placeholder:italic' type='text' placeholder="Company Name *" name='c_name' value={company.c_name} onChange={(e) => setCompany({ ...company, c_name: e.target.value, })} required />
+                <input className="text-black rounded-lg placeholder-gray-600 w-full px-4 py-2.5 bg-gray-200 focus:outline-none transition duration-50 ease-in-out transform border-transparent focus:bg-white focus:border-[#1e1e1e] focus:shadow-outline focus:ring-2 ring-offset-2 ring-[#1e1e1e] placeholder:italic" type='text' placeholder="Company Location *" name='c_location' value={company.c_location} onChange={(e) => setCompany({ ...company, c_location: e.target.value, })} />
+                <input className="text-black rounded-lg placeholder-gray-600 w-full px-4 py-2.5 bg-gray-200 focus:outline-none transition duration-50 ease-in-out transform border-transparent focus:bg-white focus:border-[#1e1e1e] focus:shadow-outline focus:ring-2 ring-offset-2 ring-[#1e1e1e] placeholder:italic" type='text' placeholder="Company Website" name='c_website' value={company.c_website} onChange={(e) => setCompany({ ...company, c_website: e.target.value, })} />
+                <input className="text-black rounded-lg placeholder-gray-600 w-full px-4 py-2.5 bg-gray-200 focus:outline-none transition duration-50 ease-in-out transform border-transparent focus:bg-white focus:border-[#1e1e1e] focus:shadow-outline focus:ring-2 ring-offset-2 ring-[#1e1e1e] placeholder:italic" type='text' placeholder="Staff Number Range" name='staff_range' value={company.staff_range} onChange={(e) => setCompany({ ...company, staff_range: e.target.value, })} />
             </div>
             <h2 className="text-2xl font-bold border-b-2 border-[#1e1e1e] mb-2 mt-4">Position Information</h2>
             <div className="grid grid-cols-2 gap-x-2 gap-y-2">
