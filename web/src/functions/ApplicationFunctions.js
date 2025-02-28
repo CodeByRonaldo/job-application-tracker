@@ -1,7 +1,7 @@
 import { APPLICATION } from "@/constants/applicationStates";
 import { useRecord } from "@/context/RecordContext";
 
-const [setRecord, record] = useRecord();
+
 
 // Function to add new empty application
 export const addEmptyApplication = () => {
